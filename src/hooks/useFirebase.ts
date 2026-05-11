@@ -50,7 +50,7 @@ export const useFirebase = () => {
   const placeOrder = useCallback(async (orderData: OrderData) => {
     try {
       // First, try to send to backend server
-      const backendResponse = await fetch("http://localhost:3001/api/order", {
+      const backendResponse = await fetch("/api/order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

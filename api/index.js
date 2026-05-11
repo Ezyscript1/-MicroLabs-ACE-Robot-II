@@ -1,15 +1,52 @@
-const express = require("express");
+import express from 'express';
+import cors from 'cors';
+
 const app = express();
-const cors = require("cors");
-const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// In-memory storage (replace with database in production)
+// In-memory storage (Note: This will be reset on every Vercel cold start)
+// For production, use Firebase or another database.
 let orders = [];
 let currentTableNumber = "";
+
+// Helper function to calculate order total
+function calculateTotal(items = [], combos = []) {
+  const menuItems = {
+    'rice-meat': 3000,
+    'jollof-chicken': 4000,
+    'jollof-big-chicken': 5000,
+    'coke': 600,
+    'water': 300,
+    'moi-moi': 1000
+  };
+  
+  const comboMeals = {
+    'combo-1': 3400,
+    'combo-2': 4100,
+    'combo-3': 5500,
+    'combo-4': 3700,
+    'combo-5': 4700
+  };
+  
+  let total = 0;
+  
+  // Calculate items total
+  items.forEach(item => {
+    const price = menuItems[item.id] || 0;
+    total += price * (item.quantity || 1);
+  });
+  
+  // Calculate combos total
+  combos.forEach(combo => {
+    const price = comboMeals[combo.id] || 0;
+    total += price * (combo.quantity || 1);
+  });
+  
+  return total;
+}
 
 // Validation middleware
 const validateOrder = (req, res, next) => {
@@ -45,12 +82,6 @@ app.post("/api/order", validateOrder, (req, res) => {
     orders.push(order);
     currentTableNumber = order.tableNumber;
     
-    console.log(`Order received for table ${tableNumber}:`, {
-      items: items.length,
-      combos: combos.length,
-      total: order.total
-    });
-    
     res.status(201).json({ 
       message: `Order for table ${tableNumber} received.`,
       orderId: order.id,
@@ -66,7 +97,6 @@ app.post("/api/order", validateOrder, (req, res) => {
 // GET endpoint for fetching table number (for Arduino)
 app.get("/api/table", (req, res) => {
   try {
-    console.log(`Arduino fetched table number: ${currentTableNumber}`);
     res.status(200).json({ tableNumber: currentTableNumber });
   } catch (error) {
     console.error("Error fetching table number:", error);
@@ -105,8 +135,6 @@ app.put("/api/orders/:orderId/status", (req, res) => {
     order.status = status;
     order.updatedAt = new Date().toISOString();
     
-    console.log(`Order ${orderId} status updated to: ${status}`);
-    
     res.status(200).json({ 
       message: `Order status updated to ${status}`,
       order 
@@ -123,49 +151,12 @@ app.delete("/api/orders", (req, res) => {
   try {
     orders = [];
     currentTableNumber = "";
-    console.log("All orders cleared");
     res.status(200).json({ message: "All orders cleared." });
   } catch (error) {
     console.error("Error clearing orders:", error);
     res.status(500).json({ error: "Internal server error." });
   }
 });
-
-// Helper function to calculate order total
-function calculateTotal(items = [], combos = []) {
-  const menuItems = {
-    'rice-meat': 3000,
-    'jollof-chicken': 4000,
-    'jollof-big-chicken': 5000,
-    'coke': 600,
-    'water': 300,
-    'moi-moi': 1000
-  };
-  
-  const comboMeals = {
-    'combo-1': 3400,
-    'combo-2': 4100,
-    'combo-3': 5500,
-    'combo-4': 3700,
-    'combo-5': 4700
-  };
-  
-  let total = 0;
-  
-  // Calculate items total
-  items.forEach(item => {
-    const price = menuItems[item.id] || 0;
-    total += price * (item.quantity || 1);
-  });
-  
-  // Calculate combos total
-  combos.forEach(combo => {
-    const price = comboMeals[combo.id] || 0;
-    total += price * (combo.quantity || 1);
-  });
-  
-  return total;
-}
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -176,7 +167,4 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-  console.log(`Health check: http://localhost:${port}/api/health`);
-});
+export default app;
