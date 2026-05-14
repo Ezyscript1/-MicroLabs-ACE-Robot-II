@@ -32,18 +32,16 @@ const Header: React.FC = () => {
           >
             Home
           </Link>
-          {isAuthenticated && user && user.role === "customer" && (
-            <Link
-              to="/menu"
-              className={`font-medium transition-colors ${
-                isActive("/menu")
-                  ? "text-orange-500 dark:text-orange-400"
-                  : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
-              }`}
-            >
-              Menu
-            </Link>
-          )}
+          <Link
+            to="/menu"
+            className={`font-medium transition-colors ${
+              isActive("/menu")
+                ? "text-orange-500 dark:text-orange-400"
+                : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
+            }`}
+          >
+            Menu
+          </Link>
           {isAuthenticated && isChef ? (
             <Link
               to="/chef/dashboard"
