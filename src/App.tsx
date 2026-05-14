@@ -27,7 +27,8 @@ function App() {
       <Header />
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<AuthPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route 
             path="/menu" 

@@ -15,17 +15,17 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-2">
+        <Link to="/home" className="flex items-center space-x-2">
           <ChefHat size={28} className="text-orange-500" />
           <span className="text-2xl font-bold logo-text">OAK-Cafeteria</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link
-            to="/"
+            to="/home"
             className={`font-medium transition-colors ${
-              isActive("/")
+              isActive("/home")
                 ? "text-orange-500 dark:text-orange-400"
                 : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
             }`}
@@ -100,9 +100,9 @@ const Header: React.FC = () => {
         <div className="md:hidden bg-white dark:bg-gray-800 py-4 px-4 shadow-lg animate-fade-in">
           <nav className="flex flex-col space-y-4">
             <Link
-              to="/"
+              to="/home"
               className={`px-4 py-2 rounded-md font-medium ${
-                isActive("/")
+                isActive("/home")
                   ? "bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-400"
                   : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}

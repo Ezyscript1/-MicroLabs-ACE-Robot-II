@@ -94,7 +94,7 @@ const AuthPage: React.FC = () => {
             </h3>
             <div className="grid grid-cols-2 gap-4">
               <button
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/home')}
                 className="flex flex-col items-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-all border-2 border-transparent hover:border-orange-500"
               >
                 <User size={32} className="text-orange-500 mb-3" />
