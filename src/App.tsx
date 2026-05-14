@@ -12,15 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import ChefLoginPage from './pages/ChefLoginPage';
 
 function App() {
-  const { user, isLoading } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    if (!isLoading && !user && location.pathname !== '/auth' && location.pathname !== '/') {
-      navigate('/auth');
-    }
-  }, [user, isLoading, navigate, location]);
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -39,11 +31,7 @@ function App() {
           <Route path="/auth" element={<AuthPage />} />
           <Route 
             path="/menu" 
-            element={
-              <ProtectedRoute allowedRole="customer">
-                <MenuPage />
-              </ProtectedRoute>
-            } 
+            element={<MenuPage />} 
           />
           <Route
             path="/chef/dashboard"

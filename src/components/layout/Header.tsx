@@ -32,18 +32,16 @@ const Header: React.FC = () => {
           >
             Home
           </Link>
-          {isAuthenticated && user && user.role === "customer" && (
-            <Link
-              to="/menu"
-              className={`font-medium transition-colors ${
-                isActive("/menu")
-                  ? "text-orange-500 dark:text-orange-400"
-                  : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
-              }`}
-            >
-              Menu
-            </Link>
-          )}
+          <Link
+            to="/menu"
+            className={`font-medium transition-colors ${
+              isActive("/menu")
+                ? "text-orange-500 dark:text-orange-400"
+                : "text-gray-700 dark:text-gray-300 hover:text-orange-500 dark:hover:text-orange-400"
+            }`}
+          >
+            Menu
+          </Link>
           {isAuthenticated && isChef ? (
             <Link
               to="/chef/dashboard"
@@ -102,15 +100,7 @@ const Header: React.FC = () => {
         <div className="md:hidden bg-white dark:bg-gray-800 py-4 px-4 shadow-lg animate-fade-in">
           <nav className="flex flex-col space-y-4">
             <Link
-              to={
-                !user
-                  ? "/"
-                  : user.role === "chef"
-                  ? "/chef/dashboard"
-                  : user.role === "customer"
-                  ? "/menu"
-                  : "/"
-              }
+              to="/"
               className={`px-4 py-2 rounded-md font-medium ${
                 isActive("/")
                   ? "bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-400"
@@ -120,19 +110,17 @@ const Header: React.FC = () => {
             >
               Home
             </Link>
-            {isAuthenticated && user && user.role === "customer" && (
-              <Link
-                to="/menu"
-                className={`px-4 py-2 rounded-md font-medium ${
-                  isActive("/menu")
-                    ? "bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-400"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                }`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Menu
-              </Link>
-            )}
+            <Link
+              to="/menu"
+              className={`px-4 py-2 rounded-md font-medium ${
+                isActive("/menu")
+                  ? "bg-orange-100 dark:bg-orange-900 text-orange-500 dark:text-orange-400"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              }`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Menu
+            </Link>
             {isAuthenticated && isChef ? (
               <Link
                 to="/chef/dashboard"

@@ -1,19 +1,8 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, UtensilsCrossed, Zap, Notebook as Robot, Clock } from 'lucide-react';
 
 const HomePage: React.FC = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate('/auth');
-    }
-  }, [user, navigate]);
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
